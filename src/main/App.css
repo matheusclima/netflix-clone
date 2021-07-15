@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #141414;
+    color: white;
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.movie--lists {
+    margin-top: -50px;
+}
