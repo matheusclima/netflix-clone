@@ -7,22 +7,19 @@ import './App.css'
 
 export default function App() {
 
-    const [movieList, setMovieList] = useState(null);
+    const [movieList, setMovieList] = useState(false);
     const [background, setBackground] = useState(true);
-    const [featuredMovie, setFeaturedMovie] = useState({});
-    const [loading, setLoading] = useState(true)
+    const [featuredMovie, setFeaturedMovie] = useState(false);
 
     useEffect(() => {
         async function loadAll() {
             let list = await Tmdb.getHomeList();
-            console.log(list)
             let originals = await list[0].items.results
             let featured = await Math.floor(Math.random() * (originals.length + 1));
             let chosen = await Tmdb.getFeaturedMovie(originals[featured].id)
-            console.log(chosen)
+            console.log(list)
             setMovieList(list);
             setFeaturedMovie(chosen)
-            setLoading(false)
         }
         loadAll();
     }, []);
@@ -37,9 +34,6 @@ export default function App() {
 
     
     return (
-        loading ? 
-        <div className='loading'>
-        </div> :
         <div id='netflix'>
             <Header background={background} />
 
@@ -53,6 +47,12 @@ export default function App() {
             </div>
                 
             } 
+            
+            {!movieList && !featuredMovie &&
+                <div className='loading'>
+                    <img src='https://cdn.lowgif.com/small/0534e2a412eeb281-the-counterintuitive-tech-behind-netflix-s-worldwide.gif' alt='loading'/>
+                </div>
+            }
         </div>
     )
 }

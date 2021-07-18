@@ -1,3 +1,4 @@
+
 .row--header {
     display: flex;
     flex-direction: column;
@@ -35,8 +36,8 @@
 .list {
     display: inline-flex;
     margin-bottom: 30px;
-    width: 100%;
-    overflow-x: hidden;
+    width: auto;
+    transition: all ease 0.7s;
 }
 
 .movie--poster img{

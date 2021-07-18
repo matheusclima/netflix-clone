@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import './style.css'
@@ -6,40 +6,26 @@ import './style.css'
 
 const MovieRow = ({list}) => {
     
-    const rollLeft = (event) => {
-        let row = document.getElementById(list.slug);
-        let actualPos = row.scrollLeft;
-        let step = 1020;
+    const [scrollX, setScrollX] = useState(0)
 
-        let scrollTimer = setInterval(()=>{
-            if(row.scrollLeft > actualPos - step && row.scrollLeft > 30) {
-                row.scrollLeft -= 70
-            } else {
-                console.log('Parou')
-                clearInterval(scrollTimer)
-            }
-        console.log()
-        }, 24)
-
+    const rollLeft = () => {
+        let x = scrollX + Math.round(window.innerWidth / 1.5);
+        console.log(x)
+        if( x > 0 ){
+            x = 0; 
+        }
+  
+        setScrollX(x);
     }
 
-    const rollRight = (event) => {
-        let row = document.getElementById(list.slug);
-        let actualPos = row.scrollLeft;
-        let width = row.getBoundingClientRect().width
-        let listWidth = list.items.results.length * 170;
-        let step = 1020;
-
-        let scrollTimer = setInterval(()=>{
-            if(row.scrollLeft < actualPos + step && row.scrollLeft + width < listWidth) {
-                console.log(row.scrollLeft)
-                row.scrollLeft += 70
-            } else {
-                console.log('Parou')
-                clearInterval(scrollTimer)
-            }
-            
-        }, 24)
+    const rollRight = () => {
+        let x = scrollX - Math.round(window.innerWidth / 1.5);
+        let width = document.getElementById(list.slug).getBoundingClientRect().width
+        console.log(x)
+        if( x < window.innerWidth - width) {
+            x = window.innerWidth - width - 50;
+        }
+        setScrollX(x)
             
     }
 
@@ -48,10 +34,10 @@ const MovieRow = ({list}) => {
             <span>{list.title}</span>
 
             <div className='row--imgs'>
-                <div className='left--arrow' onClick={(e) => rollLeft(e.target)}> <FontAwesomeIcon icon={faChevronLeft} /> </div>
-                <div className='right--arrow' onClick={(e) => rollRight(e.target)}> <FontAwesomeIcon icon={faChevronRight} /></div>
+                <div className='left--arrow' onClick={(e) => rollLeft()}> <FontAwesomeIcon icon={faChevronLeft} /> </div>
+                <div className='right--arrow' onClick={(e) => rollRight()}> <FontAwesomeIcon icon={faChevronRight} /></div>
                 <div className='list' id={list.slug} style={{
-            
+                    marginLeft: scrollX 
                 }}>
                     {list.items.results.map((movie, key) =>
                         <div key={key} className='movie--poster'>
